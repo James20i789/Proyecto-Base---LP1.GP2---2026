@@ -8,7 +8,6 @@ package Model;
  *
  * @author James Rios
  */
-public enum Rol {
-    ADMIN,
-    CLIENTE
+public class Pedidos {
+    
 }
