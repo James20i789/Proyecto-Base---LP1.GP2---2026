@@ -32,15 +32,14 @@ public class PersonaDaoImpl implements IPersona {
         int id_persona = 0;
         int r = 0;
         try {
-            query = "INSERT INTO persona(nombre,dni,email,direccion,telefono)"
+            query = "INSERT INTO persona(nombre,email,direccion,telefono)"
                     + " VALUES (?, ?, ?, ?, ?)";
             cn = ConexionSingleton.getConnection();
             st = cn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             st.setString(1, p.getNombre());
-            st.setString(2, p.getDni());
-            st.setString(3, p.getEmail());
-            st.setString(4, p.getDirección());
-            st.setString(5, p.getTelefono());
+            st.setString(2, p.getEmail());
+            st.setString(3, p.getDirección());
+            st.setString(4, p.getTelefono());
             r = st.executeUpdate();
 
             if (r != 0) {
@@ -56,10 +55,9 @@ public class PersonaDaoImpl implements IPersona {
                     query = "INSERT INTO usuarios(usuario,password,rol,id_persona)"
                             + " VALUES (?,?,?,?)";
                     st = cn.prepareStatement(query);
-                    st.setString(1, p.getDni());
-                    st.setString(2, p.getEmail());
-                    st.setString(3, hashedPassword);
-                    st.setString(4, u.getRol().name());
+                     st.setString(1, p.getEmail());
+                    st.setString(2, hashedPassword);
+                    st.setString(3, u.getRol().name());
                     st.setInt(4, id_persona);
                     r = st.executeUpdate();
                 } else {
