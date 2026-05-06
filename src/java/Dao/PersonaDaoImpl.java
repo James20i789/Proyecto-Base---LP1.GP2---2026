@@ -1,3 +1,5 @@
+package Dao;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -51,7 +53,7 @@ public class PersonaDaoImpl implements IPersona {
                 }
                 if (id_persona > 0) {
                     u.setRol(Rol.CLIENTE);
-                    String hashedPassword = u.HashPassword(u.getClave());
+                    String hashedPassword = u.HashClave(u.getClave());
                     query = "INSERT INTO usuarios(usuario,password,rol,id_persona)"
                             + " VALUES (?,?,?,?)";
                     st = cn.prepareStatement(query);
