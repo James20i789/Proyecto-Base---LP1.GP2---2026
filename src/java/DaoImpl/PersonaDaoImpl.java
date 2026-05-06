@@ -72,7 +72,7 @@ public class PersonaDaoImpl implements IPersona {
             try {
                 cn.rollback();
             } catch (Exception ex) {
-                System.out.println(" |ERRO| - Rollback no cargado" + e.getMessage());
+                System.out.println(" |ERROR| - Rollback no cargado" + e.getMessage());
 
             }
 
