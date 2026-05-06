@@ -32,8 +32,8 @@ public class PersonaDaoImpl implements IPersona {
         int id_persona = 0;
         int r = 0;
         try {
-            query = "INSERT INTO persona(nombre,email,direccion,telefono)"
-                    + " VALUES (?, ?, ?, ?, ?)";
+             query = "INSERT INTO persona(nombre,email,direccion,telefono)"
+                    + " VALUES (?, ?, ?, ?)";
             cn = ConexionSingleton.getConnection();
             st = cn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             st.setString(1, p.getNombre());
@@ -55,22 +55,22 @@ public class PersonaDaoImpl implements IPersona {
                     query = "INSERT INTO usuarios(usuario,password,rol,id_persona)"
                             + " VALUES (?,?,?,?)";
                     st = cn.prepareStatement(query);
-                     st.setString(1, p.getEmail());
+                    st.setString(1, p.getEmail());
                     st.setString(2, hashedPassword);
                     st.setString(3, u.getRol().name());
                     st.setInt(4, id_persona);
                     r = st.executeUpdate();
                 } else {
-                    System.out.println(" |ERROR| No sé lgró agregar correctamente a la persona");
+                    System.out.println("Error al agregar una persona");
                 }
             }
 
         } catch (Exception e) {
-            System.out.println("ERROR AL CARGAR" + e.getMessage());
+            System.out.println("error al agregar" + e.getMessage());
             try {
                 cn.rollback();
             } catch (Exception ex) {
-                System.out.println(" |ERROR| - Rollback no cargado" + e.getMessage());
+                System.out.println("error de rollback" + e.getMessage());
 
             }
 
@@ -83,6 +83,7 @@ public class PersonaDaoImpl implements IPersona {
             }
         }
         return r;
+
 
     }
 
