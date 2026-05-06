@@ -9,5 +9,7 @@ package Model;
  * @author James Rios
  */
 public class Carrito {
-    
+
+    private int id_carrito;
+
 }
