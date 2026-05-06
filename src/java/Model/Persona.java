@@ -41,6 +41,7 @@ public class Persona {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
     public String getEmail() {
         return email;
     }
@@ -64,6 +65,8 @@ public class Persona {
     public void setDirección(String dirección) {
         this.dirección = dirección;
     }
+
+    
     
     
 }
