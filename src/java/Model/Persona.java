@@ -11,6 +11,7 @@ package Model;
 public class Persona {
     private int id_persona;
     private String nombre;
+    private String dni;
     private String email;
     private String telefono;
     private String dirección;
@@ -18,9 +19,10 @@ public class Persona {
     public Persona() {
     }
 
-    public Persona(int id_persona, String nombre, String email, String telefono, String dirección) {
+    public Persona(int id_persona, String nombre,  String dni, String email, String telefono, String dirección) {
         this.id_persona = id_persona;
         this.nombre = nombre;
+        this.dni = dni;
         this.email = email;
         this.telefono = telefono;
         this.dirección = dirección;
@@ -41,6 +43,15 @@ public class Persona {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
+    public String getDni() {
+        return dni;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
+    }
+    
 
     public String getEmail() {
         return email;
