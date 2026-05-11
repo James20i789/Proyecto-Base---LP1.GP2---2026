@@ -49,7 +49,7 @@ public class PersonaDaoImpl implements IPersona {
                 if (rs.next()) {
                     //linea que devuelve el id de la persona creada
                     id_persona = rs.getInt(1);
-                    System.out.println("id_recuperado:" + id_persona);
+                    System.out.println("id_recuperado: " + id_persona);
                 }
                 if (id_persona > 0) {
                     u.setRol(Rol.CLIENTE);
@@ -63,16 +63,16 @@ public class PersonaDaoImpl implements IPersona {
                     st.setInt(4, id_persona);
                     r = st.executeUpdate();
                 } else {
-                    System.out.println("Error al agregar una persona");
+                    System.out.println(" |ERROR| No se logró agregar a la persona");
                 }
             }
 
         } catch (Exception e) {
-            System.out.println("error al agregar" + e.getMessage());
+            System.out.println(" ERROR AL AGREGAR" + e.getMessage());
             try {
                 cn.rollback();
             } catch (Exception ex) {
-                System.out.println("error de rollback" + e.getMessage());
+                System.out.println(" ERROR DEL ROLLBACK" + e.getMessage());
 
             }
 

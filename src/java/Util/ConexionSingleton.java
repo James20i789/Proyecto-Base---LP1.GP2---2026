@@ -20,12 +20,12 @@ public class ConexionSingleton {
                 Runtime.getRuntime().addShutdownHook(new getClose());
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 connection = DriverManager.getConnection("jdbc:mysql://localhost/bd_ecommerce", "root", "james");
-                System.out.println("Entro al if");
+                System.out.println(" ENTRO A LA BASE DE DATOS ");
             }
             return connection;
 
         } catch (ClassNotFoundException | SQLException e) {
-            throw new RuntimeException("Conexion fallida", e);
+            throw new RuntimeException("CONEXIÓN FALLIDA: ", e);
 
         }
     }
