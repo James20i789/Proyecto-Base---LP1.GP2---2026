@@ -9,5 +9,6 @@ package Model;
  * @author James Rios
  */
 public class Pedidos {
-    
+
+    private int id_pedidos;
 }
