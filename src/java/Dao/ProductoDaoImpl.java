@@ -29,44 +29,43 @@ public class ProductoDaoImpl implements IProducto {
         ResultSet rs;
         String query = null;
         
-        try{
-        } catch (Exception e) {
-            System.out.println("ERROR AL VALIDAR LISTAR" +e.getMessage());
+        try {
+            query = " SELECT id_producto,nombre,descripcion,"
+                    + " precio,stock FROM productos ";
+            
+            Lista = new ArrayList<>();
+            if (cn==null || cn.isClosed()) {
+                System.out.println(" LA CONEXIÓN SE ENCUENTRA CERRADA ");
+            }
+            cn= ConexionSingleton.getConnection();
+            st = cn.prepareStatement(query);
+            rs=st.executeQuery();
+            while (rs.next()) {                
+                pr = new Productos();
+                pr.setId_producto(rs.getInt("id_producto"));
+                pr.setNombre(rs.getString("nombre"));
+                pr.setDescripción(rs.getString("descripcion"));
+                pr.setPrecio(rs.getDouble("precio"));
+                pr.setStock(rs.getInt("stock"));
+                Lista.add(pr);
+            }            
+             
+        }catch (Exception e) {
+            System.out.println(" ERROR EN EL LISTADO:"+e.getMessage());
             try {
-                query = "SELECT id_produdcto, nombre, descripción,"
-                        + "precio, stock FROM productos";
-                Lista = new ArrayList<>();
-                if (cn==null || cn.isClosed()) {
-                    System.out.println(" LA CONEXIÓN SE ENCUENTRA CERRADA");
-                }
-                cn = ConexionSingleton.getConnection();
-                st = cn.prepareStatement(query);
-                rs = st.executeQuery(); // EJECUTA LA CONSULTA
-                while (rs.next()) {                    
-                    pr = new Productos();
-                    pr.setId_producto(rs.getInt("id_produdcto"));
-                    pr.setNombre(rs.getString("nombre"));
-                    pr.setDescripción(rs.getString("descripción"));
-                    pr.setPrecio(rs.getDouble("precio"));
-                    pr.setStock(rs.getInt("stock"));
-                    Lista.add(pr);
-                }
-                
-                
-                
                 cn.rollback();
             } catch (Exception ex) {
             }
-            System.out.println("NO SE LOGRÓ VALIDAR EL PRODUCTO");
+            System.out.println("No se pudo listar el producto");
         } finally {
             if (cn!=null) {
                 try {
-                    
-                } catch (Exception e) {
+                } catch (Exception ex) {
                 }
+                
             }
         }
-        return lista();
+        return Lista;
     }
 
     @Override
