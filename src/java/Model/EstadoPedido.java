@@ -9,5 +9,6 @@ package Model;
  * @author James Rios
  */
 public class EstadoPedido {
+
     private int estado_pedido;
 }

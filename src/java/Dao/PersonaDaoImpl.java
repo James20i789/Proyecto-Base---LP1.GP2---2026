@@ -34,7 +34,7 @@ public class PersonaDaoImpl implements IPersona {
         int id_persona = 0;
         int r = 0;
         try {
-             query = "INSERT INTO persona(nombre,email,direccion,telefono)"
+            query = "INSERT INTO persona(nombre,email,direccion,telefono)"
                     + " VALUES (?, ?, ?, ?)";
             cn = ConexionSingleton.getConnection();
             st = cn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -85,7 +85,6 @@ public class PersonaDaoImpl implements IPersona {
             }
         }
         return r;
-
 
     }
 

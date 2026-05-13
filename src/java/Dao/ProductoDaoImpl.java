@@ -18,29 +18,27 @@ import java.util.List;
  * @author James Rios
  */
 public class ProductoDaoImpl implements IProducto {
+
     private Connection cn;
-    
-    
+
     @Override
     public List<Productos> lista() {
-        List<Productos> Lista= null;
+        List<Productos> Lista = null;
         Productos pr;
         PreparedStatement st;
         ResultSet rs;
         String query = null;
-        
+
         try {
             query = " SELECT id_producto,nombre,descripcion,"
                     + " precio,stock FROM productos ";
-            
+
             Lista = new ArrayList<>();
-            if (cn==null || cn.isClosed()) {
-                System.out.println(" LA CONEXIÓN SE ENCUENTRA CERRADA ");
-            }
-            cn= ConexionSingleton.getConnection();
+
+            cn = ConexionSingleton.getConnection();
             st = cn.prepareStatement(query);
-            rs=st.executeQuery();
-            while (rs.next()) {                
+            rs = st.executeQuery();
+            while (rs.next()) {
                 pr = new Productos();
                 pr.setId_producto(rs.getInt("id_producto"));
                 pr.setNombre(rs.getString("nombre"));
@@ -48,21 +46,21 @@ public class ProductoDaoImpl implements IProducto {
                 pr.setPrecio(rs.getDouble("precio"));
                 pr.setStock(rs.getInt("stock"));
                 Lista.add(pr);
-            }            
-             
-        }catch (Exception e) {
-            System.out.println(" ERROR EN EL LISTADO:"+e.getMessage());
+            }
+
+        } catch (Exception e) {
+            System.out.println(" ERROR EN EL LISTADO:" + e.getMessage());
             try {
                 cn.rollback();
             } catch (Exception ex) {
             }
             System.out.println("No se pudo listar el producto");
         } finally {
-            if (cn!=null) {
+            if (cn != null) {
                 try {
                 } catch (Exception ex) {
                 }
-                
+
             }
         }
         return Lista;

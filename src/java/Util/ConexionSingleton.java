@@ -9,7 +9,9 @@ package Util;
  * @author James Rios
  */
 import java.sql.*;
+
 public class ConexionSingleton {
+
     //creado una variable estatica 
     public static Connection connection;
 

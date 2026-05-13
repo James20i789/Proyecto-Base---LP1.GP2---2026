@@ -9,6 +9,7 @@ package Model;
  * @author James Rios
  */
 public class Productos {
+
     private int id_producto;
     private String nombre;
     private String descripción;
@@ -75,6 +76,5 @@ public class Productos {
     public void setImagen(String imagen) {
         this.imagen = imagen;
     }
-    
-    
+
 }

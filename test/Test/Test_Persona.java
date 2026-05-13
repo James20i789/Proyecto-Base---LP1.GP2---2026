@@ -52,9 +52,9 @@ public class Test_Persona {
         if (u != null && u.getPersona() != null) {
             System.out.println("BIENVENIDO: " + u.getPersona().getNombre());
             System.out.println("ROL: " + u.getRol());
-            System.out.println("USUARIO: "+u.getUsuario());
-            System.out.println("UserID: "+u.getId_usuario());
-            System.out.println("PersonaID: "+u.getPersona().getId_persona());
+            System.out.println("USUARIO: " + u.getUsuario());
+            System.out.println("UserID: " + u.getId_usuario());
+            System.out.println("PersonaID: " + u.getPersona().getId_persona());
         } else {
             System.out.println("CREDENCIALES INCORRECTAS");
         }

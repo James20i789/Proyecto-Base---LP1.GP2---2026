@@ -9,6 +9,7 @@ package Model;
  * @author James Rios
  */
 public class Persona {
+
     private int id_persona;
     private String nombre;
     private String email;
@@ -66,7 +67,4 @@ public class Persona {
         this.dirección = dirección;
     }
 
-    
-    
-    
 }

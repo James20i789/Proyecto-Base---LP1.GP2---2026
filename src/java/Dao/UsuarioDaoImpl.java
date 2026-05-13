@@ -44,7 +44,7 @@ public class UsuarioDaoImpl implements IUsuario {
             st.setString(1, usuario);
             st.setString(2, hashedPassword);
             rs = st.executeQuery();
-            while (rs.next()) {                
+            while (rs.next()) {
                 u = new Usuario();
                 u.setId_usuario(rs.getInt("id_usuario"));
                 u.setUsuario(rs.getString("usuario"));
@@ -55,7 +55,7 @@ public class UsuarioDaoImpl implements IUsuario {
             }
 
         } catch (Exception e) {
-            System.out.println("ERROR AL VALIDAR USUARIO" +e.getMessage());
+            System.out.println("ERROR AL VALIDAR USUARIO" + e.getMessage());
             try {
                 cn.rollback();
             } catch (Exception ex) {
@@ -63,9 +63,9 @@ public class UsuarioDaoImpl implements IUsuario {
             }
             System.out.println("NO SE LOGRÓ VALIDAR EL USUARIO");
         } finally {
-            if (cn!=null) {
+            if (cn != null) {
                 try {
-                    
+
                 } catch (Exception e) {
                 }
             }
@@ -74,5 +74,3 @@ public class UsuarioDaoImpl implements IUsuario {
     }
 
 }
-
-
