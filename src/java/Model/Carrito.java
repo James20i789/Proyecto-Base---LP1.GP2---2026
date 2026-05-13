@@ -11,5 +11,7 @@ package Model;
 public class Carrito {
 
     private int id_carrito;
+    private String Marca;
+    
 
 }
