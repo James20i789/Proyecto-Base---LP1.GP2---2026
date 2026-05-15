@@ -70,7 +70,7 @@ public class ProductoDaoImpl implements IProducto {
     @Override
     // INSERTAR
     public boolean insert(Productos p) {
-        boolean agrg = false;
+        boolean agrg = true;
         PreparedStatement st;
         String query = null;
         

@@ -19,10 +19,10 @@ public class Test_Producto {
 
     public static void main(String[] args) {
         Test_Producto tP = new Test_Producto();
-        //tP.listar();
+        // tP.listar();
         tP.agregar();
     }
-
+    // LISTAR
     public static void listar() {
         List<Productos> Lista = dao.lista();
 
@@ -39,13 +39,13 @@ public class Test_Producto {
         }
 
     }
-
+    // AGREGAR
     public static void agregar() {
         Productos p = new Productos();
-        p.setNombre("Vino Unión");
-        p.setDescripción("Bebida");
-        p.setPrecio(8.00);
-        p.setStock(80);
+        p.setNombre("Leche en polvo");
+        p.setDescripción("Lácteos");
+        p.setPrecio(5.00);
+        p.setStock(40);
 
         boolean result = dao.insert(p);
         if (result) {
