@@ -19,7 +19,8 @@ public class Test_Producto {
 
     public static void main(String[] args) {
         Test_Producto tP = new Test_Producto();
-        tP.listar();
+        //tP.listar();
+        tP.agregar();
     }
 
     public static void listar() {
@@ -37,5 +38,21 @@ public class Test_Producto {
             System.out.println(" NO HAY PRODUCTOS ");
         }
 
+    }
+
+    public static void agregar() {
+        Productos p = new Productos();
+        p.setNombre("Vino Unión");
+        p.setDescripción("Bebida");
+        p.setPrecio(8.00);
+        p.setStock(80);
+
+        boolean result = dao.insert(p);
+        if (result) {
+            System.out.println(" REGISTRO SATISFACTORIO");
+        } else {
+            System.out.println(" |ERROR| No sé logró registrar");
+
+        }
     }
 }

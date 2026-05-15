@@ -22,6 +22,7 @@ public class ProductoDaoImpl implements IProducto {
     private Connection cn;
 
     @Override
+    // LISTA
     public List<Productos> lista() {
         List<Productos> Lista = null;
         Productos pr;
@@ -67,8 +68,43 @@ public class ProductoDaoImpl implements IProducto {
     }
 
     @Override
+    // INSERTAR
     public boolean insert(Productos p) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        boolean agrg = false;
+        PreparedStatement st;
+        String query = null;
+        
+        try {
+            query = "INSERT INTO productos(nombre,descripcion,precio, stock)"
+                    + " VALUES(?,?,?,?)";
+            cn = ConexionSingleton.getConnection();
+            st = cn.prepareStatement(query);
+            st.setString(1, p.getNombre());
+            st.setString(2, p.getDescripción());
+            st.setDouble(3, p.getPrecio());
+            st.setInt(4, p.getStock());
+            
+            st.executeUpdate();
+            
+            
+        } catch (Exception e) {
+            System.out.println(" |ERROR| Al agregar el producto"+e.getMessage());
+            try {
+                cn.rollback();
+            } catch (Exception ex) {
+            }
+            System.out.println(" |ERROR| No sé logró agregar al registro de productos"+e.getMessage());
+        } finally {
+            if (cn != null) {
+                try {
+                    
+                    cn.close();
+                } catch (Exception e) {
+                    System.out.println(" |ERROR AL CERRAR LA SESIÓN| ");
+                }
+            }
+        }
+        return agrg;
     }
 
     @Override
