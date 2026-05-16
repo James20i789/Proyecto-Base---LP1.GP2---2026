@@ -19,6 +19,7 @@ public class UsuarioDaoImpl implements IUsuario {
 
     private Connection cn;
 
+    // VALIDAR USUARIOS
     @Override
     public Usuario validate(String usuario, String clave) {
         Usuario u = null;

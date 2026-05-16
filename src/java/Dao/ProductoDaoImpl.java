@@ -22,7 +22,7 @@ public class ProductoDaoImpl implements IProducto {
     private Connection cn;
 
     @Override
-    // LISTA
+    // LISTAR PRODUCTOS
     public List<Productos> lista() {
         List<Productos> Lista = null;
         Productos pr;
@@ -68,7 +68,7 @@ public class ProductoDaoImpl implements IProducto {
     }
 
     @Override
-    // INSERTAR
+    // INSERTAR PRODUCTOS
     public boolean insert(Productos p) {
         boolean agrg = true;
         PreparedStatement st;
@@ -106,22 +106,22 @@ public class ProductoDaoImpl implements IProducto {
         }
         return agrg;
     }
-
+    // UPDATE PRODUCTOS
     @Override
     public boolean update(Productos p) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+    // BUSCADOR POR ID
     @Override
     public Productos SearchByID(int id) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+    // ELIMINAR
     @Override
     public boolean delete(int id) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+    // UPDATE STOCK
     @Override
     public boolean updateStock(int id, int stock) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody

@@ -22,7 +22,7 @@ public class Test_Producto {
         // tP.listar();
         tP.agregar();
     }
-    // LISTAR
+    // FUNCIONALIDAD - Listar.Productos
     public static void listar() {
         List<Productos> Lista = dao.lista();
 
@@ -39,7 +39,7 @@ public class Test_Producto {
         }
 
     }
-    // AGREGAR
+    // FUNCIONALIDAD - AGREGAR.Productos
     public static void agregar() {
         Productos p = new Productos();
         p.setNombre("Leche en polvo");

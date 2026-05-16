@@ -20,6 +20,7 @@ public class PersonaDaoImpl implements IPersona {
 
     private Connection cn;
 
+    // LISTAR DATOS - PERSONA
     @Override
     public List<Persona> lista() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -87,17 +88,17 @@ public class PersonaDaoImpl implements IPersona {
         return r;
 
     }
-
+    // UPDATE LOS DATOS - PERSONA
     @Override
     public boolean update(Persona p) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+    // BUSCADOR POR ID
     @Override
     public Persona SearchByID(int id) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+    // ELIMINAR DATOS
     @Override
     public boolean delete(int id) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
