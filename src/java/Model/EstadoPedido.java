@@ -10,5 +10,5 @@ package Model;
  */
 public class EstadoPedido {
 
-    private int estado_pedido;
+    private int id_detallesPedido;
 }
