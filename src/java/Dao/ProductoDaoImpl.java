@@ -26,7 +26,7 @@ public class ProductoDaoImpl implements IProducto {
     public List<Productos> lista() {
         List<Productos> Lista = null;
         Productos pr;
-        PreparedStatement st;
+        PreparedStatement st; // ENVÍO DE PARÁMETRO - LISTAR PRODUCTOS
         ResultSet rs;
         String query = null;
 
@@ -71,7 +71,7 @@ public class ProductoDaoImpl implements IProducto {
     // INSERTAR PRODUCTOS
     public boolean insert(Productos p) {
         boolean flag = false;
-        PreparedStatement st;
+        PreparedStatement st; // ENVÍO DE PARÁMETRO - INSERTAR PRODUCTOS
         String query = null;
 
         try {
@@ -113,7 +113,7 @@ public class ProductoDaoImpl implements IProducto {
     // UPDATE PRODUCTOS
     public boolean update(Productos p) {
         boolean flag = false;
-        PreparedStatement st;
+        PreparedStatement st; // ENVÍO DE PARÁMETRO - UPDATE PRODUCTOS
         String query = null;
 
         try {
@@ -157,20 +157,100 @@ public class ProductoDaoImpl implements IProducto {
     // BUSCADOR POR ID
     @Override
     public Productos SearchByID(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Productos pr = null;
+        PreparedStatement st; // ENVÍO DE PARÁMETRO - BUSCAR POR ID PRODUCTO
+        ResultSet rs;
+        String query = null;
+
+        try {
+            query = "SELECT * FROM productos WHERE id_producto=?";
+            cn = ConexionSingleton.getConnection();
+            st = cn.prepareStatement(query);
+
+            st.setInt(1, id);
+            rs = st.executeQuery();
+            while (rs.next()) {
+                pr = new Productos();
+                pr.setId_producto(rs.getInt("id_producto"));
+                pr.setNombre(rs.getString("nombre"));
+                pr.setDescripción(rs.getString("descripcion"));
+                pr.setPrecio(rs.getDouble("precio"));
+                pr.setStock(rs.getInt("stock"));
+                pr.setImagen(rs.getString("imagen"));
+
+            }
+
+        } catch (Exception e) {
+
+            System.out.println("|ERROR| Al buscar el producto por ID" + e.getMessage());
+
+            try {
+                cn.rollback();
+            } catch (Exception ex) {
+            }
+
+        } finally {
+
+            if (cn != null) {
+                try {
+
+                } catch (Exception ex) {
+                    System.out.println("|ERROR AL CERRAR LA SESIÓN| ");
+                }
+            }
+        }
+
+        return pr;
     }
 
     // ELIMINAR
     @Override
     public boolean delete(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        boolean flag = false;
+        PreparedStatement st; // ENVÍO DE PARÁMETRO - ELIMINAR PRODUCTOS
+        String query = null;
+
+        try {
+
+            query = "DELETE FROM productos WHERE id_producto=?";
+
+            cn = ConexionSingleton.getConnection();
+            st = cn.prepareStatement(query);
+            st.setInt(1, id);
+            st.executeUpdate();
+
+            flag = true;
+
+        } catch (Exception e) {
+
+            System.out.println(" |ERROR| al eliminar producto " + e.getMessage());
+
+            try {
+                cn.rollback();
+            } catch (Exception ex) {
+            }
+
+            flag = false;
+
+        } finally {
+
+            if (cn != null) {
+                try {
+
+                } catch (Exception ex) {
+                    System.out.println("|ERROR AL CERRAR LA SESIÓN|");
+                }
+            }
+        }
+
+        return flag;
     }
 
     // UPDATE STOCK
     @Override
     public boolean updateStock(int id, int stock) {
         boolean flag = false;
-        PreparedStatement st;
+        PreparedStatement st; // ENVÍO DE PARÁMETRO - UPDATE STOCK
         String query = null;
 
         try {
@@ -183,13 +263,13 @@ public class ProductoDaoImpl implements IProducto {
             flag = true;
 
         } catch (Exception e) {
-            System.out.println(" |ERROR| Al actualizar el producto" + e.getMessage());
+            System.out.println(" |ERROR| Al actualizar al stock de productos" + e.getMessage());
             try {
                 cn.rollback();
             } catch (Exception ex) {
             }
             flag = false;
-            System.out.println(" |ERROR| No sé logró actualizar al registro de productos" + e.getMessage());
+            System.out.println(" |ERROR| No sé logró actualizar al stock de productos" + e.getMessage());
         } finally {
             if (cn != null) {
                 try {

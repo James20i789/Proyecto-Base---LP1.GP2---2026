@@ -19,10 +19,12 @@ public class Test_Producto {
 
     public static void main(String[] args) {
         Test_Producto tP = new Test_Producto();
-        // tP.listar();
+        tP.listar();
         tP.agregar();
-        // tP.actualizar();
+        tP.actualizar();
+        tP.eliminar();
     }
+
     // FUNCIONALIDAD - Listar.Productos
     public static void listar() {
         List<Productos> Lista = dao.lista();
@@ -32,7 +34,7 @@ public class Test_Producto {
             for (Productos ps : Lista) {
                 System.out.println(ps.getId_producto()
                         + "\t" + ps.getNombre() + "\t$"
-                        + ps.getPrecio() + "\t" + ps.getStock()+ ps.getImagen());
+                        + ps.getPrecio() + "\t" + ps.getStock() + ps.getImagen());
 
             }
         } else {
@@ -40,6 +42,7 @@ public class Test_Producto {
         }
 
     }
+
     // FUNCIONALIDAD - AGREGAR.Productos
     public static void agregar() {
         Productos p = new Productos();
@@ -57,8 +60,42 @@ public class Test_Producto {
 
         }
     }
-    // FUNCIONALIDAD - Actualizar.Productos
-    public static void actualizar(){
-        
+
+    // FUNCIONALIDAD - ACTUALIZAR.Productos
+    public static void actualizar() {
+        Productos p = new Productos();
+        p.setNombre("Oppo Reno Pro 11");
+        p.setDescripción("CALIDAD RENDIMIENTO 256 GB + CALIDAD IMAGEN");
+        p.setPrecio(1760.20);
+        p.setStock(18);
+        p.setImagen("/resources/img/celular.jpg");
+
+        boolean result = dao.update(p);
+        if (result) {
+            System.out.println(" PRODUCTO ACTUALIZADO");
+        } else {
+            System.out.println(" |ERROR| No sé logró actualizar");
+
+        }
     }
+
+    // FUNCIONALIDAD - ELIMINAR.Productos
+    public static void eliminar() {
+        boolean result = dao.delete(3);
+
+        if (result) {
+            System.out.println("ELIMINADO");
+        } else {
+            System.out.println(" |ERROR| No se logró eliminar");
+        }
+    }
+    // FUNCIONALIDAD - UPDATE STOCK.Productos
+    public static void updateStock() {
+
+        if (result) {
+            System.out.println("ELIMINADO");
+        } else {
+            System.out.println(" |ERROR| No se logró eliminar");
+        }
+    
 }
