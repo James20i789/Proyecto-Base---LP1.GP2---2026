@@ -19,19 +19,19 @@ public class Test_Producto {
 
     public static void main(String[] args) {
         Test_Producto tP = new Test_Producto();
-        // tP.listar();
-        tP.agregar();
+        tP.listar();
+        //tP.agregar();
     }
     // FUNCIONALIDAD - Listar.Productos
     public static void listar() {
         List<Productos> Lista = dao.lista();
 
         if (Lista != null && !Lista.isEmpty()) {
-            System.out.println("ID\tNombre\tPrecio\tStock");
+            System.out.println("ID\tNombre\tPrecio\tStock\tImagen");
             for (Productos ps : Lista) {
                 System.out.println(ps.getId_producto()
                         + "\t" + ps.getNombre() + "\t$"
-                        + ps.getPrecio() + "\t" + ps.getStock());
+                        + ps.getPrecio() + "\t" + ps.getStock()+ ps.getImagen());
 
             }
         } else {
@@ -42,14 +42,15 @@ public class Test_Producto {
     // FUNCIONALIDAD - AGREGAR.Productos
     public static void agregar() {
         Productos p = new Productos();
-        p.setNombre("Leche en polvo");
-        p.setDescripción("Lácteos");
-        p.setPrecio(5.00);
-        p.setStock(40);
+        p.setNombre("Xiaomi 15T Pro-Black");
+        p.setDescripción("Alto rendimiento + RENDIMIENTO CON 256GB");
+        p.setPrecio(2500.20);
+        p.setStock(15);
+        p.setImagen("/resources/img/celular.jpg");
 
         boolean result = dao.insert(p);
         if (result) {
-            System.out.println(" REGISTRO SATISFACTORIO");
+            System.out.println(" PRODUCTO INSERTADO");
         } else {
             System.out.println(" |ERROR| No sé logró registrar");
 

@@ -70,30 +70,33 @@ public class ProductoDaoImpl implements IProducto {
     @Override
     // INSERTAR PRODUCTOS
     public boolean insert(Productos p) {
-        boolean agrg = true;
+        boolean flag = false;
         PreparedStatement st;
         String query = null;
         
         try {
-            query = "INSERT INTO productos(nombre,descripcion,precio, stock)"
-                    + " VALUES(?,?,?,?)";
+            query = "INSERT INTO productos(nombre,descripcion,precio, stock, imagen)"
+                    + " VALUES(?,?,?,?,?)";
             cn = ConexionSingleton.getConnection();
             st = cn.prepareStatement(query);
             st.setString(1, p.getNombre());
             st.setString(2, p.getDescripción());
             st.setDouble(3, p.getPrecio());
             st.setInt(4, p.getStock());
+            st.setString(5, p.getImagen());
             
             st.executeUpdate();
+            flag = true;
+            
             
             
         } catch (Exception e) {
-            System.out.println(" |ERROR| Al agregar el producto"+e.getMessage());
+            System.out.println(" |ERROR| Al insertar el producto"+e.getMessage());
             try {
                 cn.rollback();
             } catch (Exception ex) {
             }
-            System.out.println(" |ERROR| No sé logró agregar al registro de productos"+e.getMessage());
+            System.out.println(" |ERROR| No sé logró insertar al registro de productos"+e.getMessage());
         } finally {
             if (cn != null) {
                 try {
@@ -104,7 +107,7 @@ public class ProductoDaoImpl implements IProducto {
                 }
             }
         }
-        return agrg;
+        return flag;
     }
     // UPDATE PRODUCTOS
     @Override
