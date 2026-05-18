@@ -32,7 +32,7 @@ public class ProductoDaoImpl implements IProducto {
 
         try {
             query = " SELECT id_producto,nombre,descripcion,"
-                    + " precio,stock FROM productos ";
+                    + "precio,stock FROM productos ";
 
             Lista = new ArrayList<>();
 
@@ -55,7 +55,7 @@ public class ProductoDaoImpl implements IProducto {
                 cn.rollback();
             } catch (Exception ex) {
             }
-            System.out.println("No se pudo listar el producto");
+            System.out.println(" |ERROR| No sé logró listar el producto");
         } finally {
             if (cn != null) {
                 try {
@@ -84,9 +84,9 @@ public class ProductoDaoImpl implements IProducto {
             st.setDouble(3, p.getPrecio());
             st.setInt(4, p.getStock());
             st.setString(5, p.getImagen());
-
             st.executeUpdate();
             flag = true;
+            
 
         } catch (Exception e) {
             System.out.println(" |ERROR| Al insertar el producto" + e.getMessage());
@@ -99,10 +99,7 @@ public class ProductoDaoImpl implements IProducto {
         } finally {
             if (cn != null) {
                 try {
-
-                    cn.close();
-                } catch (Exception e) {
-                    System.out.println(" |ERROR AL CERRAR LA SESIÓN| ");
+                } catch (Exception ex) {
                 }
             }
         }
@@ -117,7 +114,7 @@ public class ProductoDaoImpl implements IProducto {
         String query = null;
 
         try {
-            query = " UPDATE productos SET (nombre=?,"
+            query = " UPDATE productos SET nombre=?,"
                     + "descripcion=?, precio=?, stock=?,imagen=?"
                     + "WHERE id_producto=?";
             cn = ConexionSingleton.getConnection();
@@ -128,9 +125,9 @@ public class ProductoDaoImpl implements IProducto {
             st.setInt(4, p.getStock());
             st.setString(5, p.getImagen());
             st.setInt(6, p.getId_producto());
-
             st.executeUpdate();
             flag = true;
+            
 
         } catch (Exception e) {
             System.out.println(" |ERROR| Al actualizar el producto" + e.getMessage());
@@ -144,9 +141,7 @@ public class ProductoDaoImpl implements IProducto {
             if (cn != null) {
                 try {
 
-                    cn.close();
                 } catch (Exception e) {
-                    System.out.println(" |ERROR AL CERRAR LA SESIÓN| ");
                 }
             }
         }
@@ -188,14 +183,12 @@ public class ProductoDaoImpl implements IProducto {
                 cn.rollback();
             } catch (Exception ex) {
             }
-
+            System.out.println(" |ERROR| No sé logró buscar por el ID");
         } finally {
 
             if (cn != null) {
                 try {
-
                 } catch (Exception ex) {
-                    System.out.println("|ERROR AL CERRAR LA SESIÓN| ");
                 }
             }
         }
@@ -211,14 +204,11 @@ public class ProductoDaoImpl implements IProducto {
         String query = null;
 
         try {
-
             query = "DELETE FROM productos WHERE id_producto=?";
-
             cn = ConexionSingleton.getConnection();
             st = cn.prepareStatement(query);
             st.setInt(1, id);
             st.executeUpdate();
-
             flag = true;
 
         } catch (Exception e) {
@@ -229,16 +219,13 @@ public class ProductoDaoImpl implements IProducto {
                 cn.rollback();
             } catch (Exception ex) {
             }
-
             flag = false;
-
+            System.out.println(" |ERROR| No sé logró eliminar el producto");
         } finally {
 
             if (cn != null) {
                 try {
-
                 } catch (Exception ex) {
-                    System.out.println("|ERROR AL CERRAR LA SESIÓN|");
                 }
             }
         }
@@ -254,7 +241,7 @@ public class ProductoDaoImpl implements IProducto {
         String query = null;
 
         try {
-            query = " UPDATE productos SET (stock=? WHERE id_producto=?";
+            query = " UPDATE productos SET stock=? WHERE id_producto=?";
             cn = ConexionSingleton.getConnection();
             st = cn.prepareStatement(query);
             st.setInt(1, stock);
@@ -273,10 +260,7 @@ public class ProductoDaoImpl implements IProducto {
         } finally {
             if (cn != null) {
                 try {
-
-                    cn.close();
-                } catch (Exception e) {
-                    System.out.println(" |ERROR AL CERRAR LA SESIÓN| ");
+                } catch (Exception ex) {
                 }
             }
         }
