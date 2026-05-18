@@ -19,8 +19,9 @@ public class Test_Producto {
 
     public static void main(String[] args) {
         Test_Producto tP = new Test_Producto();
-        tP.listar();
-        //tP.agregar();
+        // tP.listar();
+        tP.agregar();
+        // tP.actualizar();
     }
     // FUNCIONALIDAD - Listar.Productos
     public static void listar() {
@@ -42,10 +43,10 @@ public class Test_Producto {
     // FUNCIONALIDAD - AGREGAR.Productos
     public static void agregar() {
         Productos p = new Productos();
-        p.setNombre("Xiaomi 15T Pro-Black");
-        p.setDescripción("Alto rendimiento + RENDIMIENTO CON 256GB");
-        p.setPrecio(2500.20);
-        p.setStock(15);
+        p.setNombre("Oppo Reno Pro 11");
+        p.setDescripción("Alto rendimiento +  calidad imagen + RENDIMIENTO CON 256GB");
+        p.setPrecio(1760.20);
+        p.setStock(12);
         p.setImagen("/resources/img/celular.jpg");
 
         boolean result = dao.insert(p);
@@ -55,5 +56,9 @@ public class Test_Producto {
             System.out.println(" |ERROR| No sé logró registrar");
 
         }
+    }
+    // FUNCIONALIDAD - Actualizar.Productos
+    public static void actualizar(){
+        
     }
 }
