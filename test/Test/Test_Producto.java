@@ -20,10 +20,10 @@ public class Test_Producto {
     public static void main(String[] args) {
         Test_Producto tP = new Test_Producto();
         tP.listar();
-        tP.agregar();
+        // tP.agregar();
         tP.actualizar();
         tP.SearchByID();
-        //tP.eliminar();
+        // tP.eliminar();
         tP.updateStock();
     }
 
@@ -54,7 +54,7 @@ public class Test_Producto {
         p.setStock(25);
         p.setImagen("/resources/img/celular.jpg");
         boolean result = dao.insert(p);
-        
+
         if (result) {
             System.out.println(" PRODUCTO INSERTADO");
         } else {
@@ -85,7 +85,7 @@ public class Test_Producto {
     // FUNCIONALIDAD - SearchByID.Productos
     public static void SearchByID() {
         Productos pr = dao.SearchByID(6);
-        
+
         if (pr != null) {
             System.out.println(" PRODUCTOS ENCONTRADO");
             System.out.println("ID:" + pr.getId_producto());
@@ -120,4 +120,3 @@ public class Test_Producto {
         }
     }
 }
-

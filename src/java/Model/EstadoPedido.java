@@ -8,7 +8,11 @@ package Model;
  *
  * @author James Rios
  */
-public class EstadoPedido {
-
-    private int id_detallesPedido;
+public enum EstadoPedido {
+    PENDIENTE,
+    PROCESADO,
+    ENVIADO,
+    ENTREGADO,
+    CANCELADO
+    
 }
