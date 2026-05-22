@@ -27,6 +27,7 @@ public class Test_Persona {
         tp.validarUsuario();
     }
 
+    // INSERTAR DATOS - PERSONA
     public void insert() {
         Persona p = new Persona();
         p.setNombre("James");
@@ -47,6 +48,8 @@ public class Test_Persona {
         }
     }
 
+    
+    // VALIDACIÓN DE DATOS DEL USUARIO - PERSONA
     public void validarUsuario() {
         Usuario u = Udao.validate("james.rios@gmail.com", "61126141");
         if (u != null && u.getPersona() != null) {

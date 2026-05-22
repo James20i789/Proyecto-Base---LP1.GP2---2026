@@ -53,6 +53,7 @@ public class Test_Pedido {
         nuevoPedido.setEstadoPedido(EstadoPedido.ENTREGADO);
         nuevoPedido.setDetalleCarritos(listaCarrito);
         
+        // ENVIO DE DATOS EN RELACIÓN A LOS PEDIDOS DEL CARRITO - EJECUCIÓN
         System.out.println(" ENVIANDO .... ");
         int result = dao.generarPedido(nuevoPedido);
         if (result>0) {

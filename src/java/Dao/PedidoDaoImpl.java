@@ -19,7 +19,9 @@ import java.sql.*;
 public class PedidoDaoImpl implements IPedido {
 
     private Connection cn;
-
+    
+    
+    // PEDIDO GENERADO
     @Override
     public int generarPedido(Pedidos pedidos) {
         int id_pedido = 0;

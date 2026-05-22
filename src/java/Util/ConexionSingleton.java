@@ -12,10 +12,10 @@ import java.sql.*;
 
 public class ConexionSingleton {
 
-    //creado una variable estatica 
+    // CREADO UNA VARIABLE ESTÁTICA 
     public static Connection connection;
 
-    //metodo getConnection
+    // MÉTODO getConnection
     public static Connection getConnection() {
         try {
             if (connection == null) {
@@ -32,6 +32,7 @@ public class ConexionSingleton {
         }
     }
 
+    // HERENCIA DE SESIÓN TERMINADA DE UNA CLASE
     static class getClose extends Thread {
 
         @Override
