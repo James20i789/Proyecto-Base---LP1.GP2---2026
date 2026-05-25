@@ -31,6 +31,7 @@ public class Test_Pedido {
         
         List<Carrito> listaCarrito = new ArrayList<>();
         
+        // CARRITO - Insert ITEM2
         Carrito item1 = new Carrito();
         item1.setIdProducto(1); // TABLA PRODUCTOS - DATOS 01
         item1.setPrecioCompra(50);
@@ -38,6 +39,7 @@ public class Test_Pedido {
         item1.setSubTotal(100);
         listaCarrito.add(item1);
         
+        // CARRITO - Insert ITEM1
         Carrito item2 = new Carrito();
         item2.setIdProducto(2); // TABLA PRODUCTOS - DATOS 02
         item2.setPrecioCompra(40);
