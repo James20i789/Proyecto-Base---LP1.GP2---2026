@@ -8,6 +8,7 @@ import Dao.PersonaDaoImpl;
 import Dao.UsuarioDaoImpl;
 import Interface.IPersona;
 import Interface.IUsuario;
+import Model.Persona;
 import Model.Usuario;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -30,7 +31,7 @@ public class AuthController extends HttpServlet {
 
     private final IUsuario uDao = new UsuarioDaoImpl();
     private final IPersona PDao = new PersonaDaoImpl();
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -77,40 +78,67 @@ public class AuthController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        
+
         // FORMA DE RECOGER DATOS DE LA VISTA EN LA ARQUITECTURA MVC
-        String action = request.getParameter("ACTION");
+        String action = request.getParameter("action");
         JsonObject jsonResponse = new JsonObject(); // Importe de Librería gson-2.10 jar
-        
-        
-        Gson gson =  new Gson();
-        try (PrintWriter out = response.getWriter()){
-            if (action.equals("VALIDAR")) {
-                String user = request.getParameter("USUARIO");
-                String pasw = request.getParameter("PASSWORD");
+
+        Gson gson = new Gson();
+        try (PrintWriter out = response.getWriter()) {
+            if (action.equals("validar")) {
+                String user = request.getParameter("usuario");
+                String pasw = request.getParameter("password");
                 // VARIABLE LOCAL DE Usuario.MODEL
                 Usuario us = uDao.validate(user, pasw);
-                
-                if (us!=null && us.getUsuario() !=null) {
+
+                if (us != null && us.getUsuario() != null) {
                     // ABRIENDO LA SESIÓN
                     HttpSession sesion = request.getSession(true);
-                    sesion.setAttribute("USUARIO",us);
-                    
-                    jsonResponse.addProperty("Success", true);
-                    jsonResponse.addProperty("Message", "Incio de sesión exitoso");
+                    sesion.setAttribute("usuario", us);
+
+                    jsonResponse.addProperty("success", true);
+                    jsonResponse.addProperty("message", "Incio de sesion exitoso");
                     jsonResponse.add("userData", gson.toJsonTree(us));
-                    
-                }else{
-                    jsonResponse.addProperty("Success", false);
-                    jsonResponse.addProperty("Message", "SESIÓN INCORRECTA");
+
+                } else {
+                    jsonResponse.addProperty("success", false);
+                    jsonResponse.addProperty("message", "sesion incorrecta");
                 }
                 out.println(jsonResponse.toString());
+                
+                // REGISTRO ACTION
+            } else if (action.equals("regitro")) {
+
+                Persona p = new Persona();
+                Usuario us = new Usuario();
+
+                p.setNombre(request.getParameter("nombre"));
+                p.setEmail(request.getParameter("email"));
+                p.setDirección(request.getParameter("direcion"));
+                p.setTelefono(request.getParameter("telefono"));
+                us.setClave(request.getParameter("password"));
+
+                int resultado = PDao.insert(p, us);
+                
+                jsonResponse.addProperty("success", true);
+                jsonResponse.addProperty("message", resultado != 0 ? "Incio de sesion exitoso" : "error de registro");
+                out.print(jsonResponse.toString());
+
+                
+                // SALIR ACTION
+             }else if(action.equals("Salir")){
+                HttpSession session= request.getSession(false);
+                if (session !=null) session.invalidate();
+                jsonResponse.addProperty("sucess", true);
+                jsonResponse.addProperty("message","Sesion cerrada");
+                out.print(jsonResponse.toString());
             }
+
         } catch (Exception e) {
-            // EN UN SERVIDOR EL ERRO DE ESTADO 500 ES DE FALLA EN LA LÓGICA
+            // EN UN SERVIDOR EL ERROR DE ESTADO 500 ES DE FALLA EN LA LÓGICA
             response.setStatus(500);
-            jsonResponse.addProperty("Success", false);
-            jsonResponse.addProperty("Message", "ERRR" + e.getMessage());
+            jsonResponse.addProperty("success", false);
+            jsonResponse.addProperty("message", "error" + e.getMessage());
             response.getWriter().print(jsonResponse.toString());
         }
     }
