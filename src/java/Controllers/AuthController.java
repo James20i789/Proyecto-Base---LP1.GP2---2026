@@ -106,7 +106,7 @@ public class AuthController extends HttpServlet {
                 }
                 out.println(jsonResponse.toString());
                 
-                // REGISTRO ACTION
+                // REGISTER ACTION
             } else if (action.equals("register")) {
 
                 Persona p = new Persona();
