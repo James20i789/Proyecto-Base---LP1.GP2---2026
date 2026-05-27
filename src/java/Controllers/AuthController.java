@@ -29,6 +29,7 @@ import oracle.jdbc.driver.json.binary.JsonpOsonObject;
 @WebServlet(name = "AuthController", urlPatterns = {"/AuthController"})
 public class AuthController extends HttpServlet {
 
+    // LLAMADA GLOBAL
     private final IUsuario uDao = new UsuarioDaoImpl();
     private final IPersona PDao = new PersonaDaoImpl();
 
@@ -48,30 +49,12 @@ public class AuthController extends HttpServlet {
             out.println("</html>");
         }
     }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
+    // DoGET ENVIO
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     // DoPost ENVÍO
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -143,13 +126,8 @@ public class AuthController extends HttpServlet {
         }
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
     @Override
-    // DoGET Envío
+    // DoServletInfo Envío
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
