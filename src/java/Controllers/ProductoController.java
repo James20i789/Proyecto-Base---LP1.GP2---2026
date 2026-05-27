@@ -59,7 +59,7 @@ public class ProductoController extends HttpServlet {
     private void listarProductos(HttpServletRequest request, HttpServletResponse response)
             throws IOException{
         List<Productos> productos = pDAO.lista(); // ENVIO DE DATOS A POSTMAN
-        response.getWriter().print(gson.toJson(productos));
+        response.getWriter().print(gson.toJson(productos)); // RECEPCIÓN DE DATOS A POSTMAN
     }
     // GUARDAR PRODUCTOS
     private void guardarProductos(HttpServletRequest request, HttpServletResponse response)
