@@ -13,6 +13,9 @@ import java.util.List;
  *
  * @author James Rios
  */
+
+
+    // TEST PRODUCTO-BD
 public class Test_Producto {
 
     public static IProducto dao = new ProductoDaoImpl();
