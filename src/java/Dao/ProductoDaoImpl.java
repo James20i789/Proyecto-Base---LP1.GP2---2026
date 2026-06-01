@@ -46,7 +46,7 @@ public class ProductoDaoImpl implements IProducto {
                 pr.setDescripción(rs.getString("descripcion"));
                 pr.setPrecio(rs.getDouble("precio"));
                 pr.setStock(rs.getInt("stock"));
-                pr.setImagen(rs.getString("Image"));
+                pr.setImagen(rs.getString("Imagen"));
                 Lista.add(pr);
             }
 
@@ -69,12 +69,13 @@ public class ProductoDaoImpl implements IProducto {
     }
 
     @Override
-    // INSERTAR PRODUCTOS
+    // INSERTAR PRODUCTOS A LA BD
     public boolean insert(Productos p) {
         boolean flag = false;
         PreparedStatement st; // ENVÍO DE PARÁMETRO - INSERTAR PRODUCTOS
         String query = null;
 
+        // CADENA DE VINCULACIÓN A LA BD
         try {
             query = "INSERT INTO productos(nombre,descripcion,precio, stock, imagen)"
                     + " VALUES(?,?,?,?,?)";
