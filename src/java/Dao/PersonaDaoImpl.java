@@ -26,13 +26,13 @@ public class PersonaDaoImpl implements IPersona {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    // INSERTAR NUEVOS DATOS
+    // INSERTAR NUEVOS DATOS - PERSONA
     @Override
     public int insert(Persona p, Usuario u) {
         PreparedStatement st;
         String query = null;
         ResultSet rs;
-        int id_persona = 0;
+        int id_persona = 0; // variables nulas
         int r = 0;
         try {
             query = "INSERT INTO persona(nombre,email,direccion,telefono)"
