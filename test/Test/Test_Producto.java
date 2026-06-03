@@ -22,12 +22,12 @@ public class Test_Producto {
 
     public static void main(String[] args) {
         Test_Producto tP = new Test_Producto();
-        tP.listar();
+        //tP.listar();
         // tP.agregar();
-        tP.actualizar();
-        tP.SearchByID();
+        //tP.actualizar();
+        //P.SearchByID();
         // tP.eliminar();
-        tP.updateStock();
+        //tP.updateStock();
     }
 
     // FUNCIONALIDAD - LISTAR.Productos
