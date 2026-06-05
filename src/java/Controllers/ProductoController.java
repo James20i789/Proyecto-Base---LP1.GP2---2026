@@ -39,6 +39,7 @@ public class ProductoController extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         String action = request.getParameter("action");
 
+        // ACCIONES DE LISTADOS - DIRECTAMENTE CON POSTMAN
         if (action == null) {
             action = "listar";
         }
@@ -62,7 +63,9 @@ public class ProductoController extends HttpServlet {
         }
 
     }
-
+    
+    
+    // LISTAR - PRODUCTOS
     private void listarProductos(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
         List<Productos> productos = pDao.lista();
@@ -70,6 +73,7 @@ public class ProductoController extends HttpServlet {
 
     }
 
+    // GUARDAR - PRODUCTOS
     private void guardarProductos(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
 
@@ -123,7 +127,8 @@ public class ProductoController extends HttpServlet {
         }
 
     }
-
+    
+    // EDITAR PRODUCTOS
     private void editarProductos(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
            try {
@@ -157,6 +162,7 @@ public class ProductoController extends HttpServlet {
 
     }
 
+    // ELIMINAR - PRODUCTOS
     private void eliminarProductos(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
        int id = Integer.parseInt(request.getParameter("id"));
@@ -165,6 +171,7 @@ public class ProductoController extends HttpServlet {
 
     }
 
+    // BUSCAR - PRODUCTOS
     private void buscarProductos(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
          int id = Integer.parseInt(request.getParameter("id"));
@@ -173,20 +180,15 @@ public class ProductoController extends HttpServlet {
 
     }
 
+    // PROCESOS - DoGET - RECEPCIÓN DE DATOS POSTMAN
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+
+    // PROCESOS - DoPost - ENVÍO DE DATOS POSTMAN
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

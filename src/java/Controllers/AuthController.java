@@ -49,12 +49,14 @@ public class AuthController extends HttpServlet {
             out.println("</html>");
         }
     }
+
     @Override
-    // DoGET ENVIO
+    // PROCESOS - DoGET - RECEPCIÓN DE DATOS POSTMAN
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
+    // PROCESOS - DoPost - ENVÍO DE DATOS POSTMAN
     @Override
     // DoPost ENVÍO
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -88,7 +90,7 @@ public class AuthController extends HttpServlet {
                     jsonResponse.addProperty("message", "sesion incorrecta");
                 }
                 out.println(jsonResponse.toString());
-                
+
                 // REGISTER ACTION
             } else if (action.equals("register")) {
 
@@ -102,18 +104,19 @@ public class AuthController extends HttpServlet {
                 us.setClave(request.getParameter("password"));
 
                 int resultado = PDao.insert(p, us);
-                
+
                 jsonResponse.addProperty("success", true);
                 jsonResponse.addProperty("message", resultado != 0 ? "Inicio de sesion exitoso" : "ERROR DE REGISTRO");
                 out.print(jsonResponse.toString());
 
-                
                 // SALIR ACTION
-             }else if(action.equals("Salir")){
-                HttpSession session= request.getSession(false);
-                if (session !=null) session.invalidate();
+            } else if (action.equals("Salir")) {
+                HttpSession session = request.getSession(false);
+                if (session != null) {
+                    session.invalidate();
+                }
                 jsonResponse.addProperty("sucess", true);
-                jsonResponse.addProperty("message","Sesion cerrada");
+                jsonResponse.addProperty("message", "Sesion cerrada");
                 out.print(jsonResponse.toString());
             }
 
