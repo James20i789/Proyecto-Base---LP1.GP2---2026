@@ -28,7 +28,7 @@ import java.util.List;
 
 /**
  *
- * @author Usuario
+ * @author James Rios
  */
 @WebServlet(name = "AppController", urlPatterns = {"/AppController"})
 public class AppController extends HttpServlet {
@@ -44,6 +44,7 @@ public class AppController extends HttpServlet {
         String action = request.getParameter("action");
         JsonObject jsonResponse = new JsonObject();
 
+        // RECUPERACIÓN DE LA SESIÓN
         HttpSession session = request.getSession();
 
         List<Carrito> listCarrito = (List<Carrito>) session.getAttribute("carrito");
@@ -53,49 +54,55 @@ public class AppController extends HttpServlet {
         }
         try (PrintWriter out = response.getWriter()) {
             switch (action) {
+
+                // LISTAR PRODUCTOS
                 case "listarProductos":
                     List<Productos> productos = pDao.lista();
                     out.print(gson.toJson(productos));
                     break;
+
+                // AÑADIR CARRITO
                 case "AddCarrito":
                     int id = Integer.parseInt(request.getParameter("id"));
                     Productos p = pDao.SearchByID(id);
                     if (p != null) {
                         int pos = -1;
-                        for (int i = 0; i < listCarrito.size(); i++) {
+                        for (int i = 0; i < listCarrito.size(); i++) { // SIZE ES UN ARREGLO
                             if (listCarrito.get(i).getIdProducto() == id) {
                                 pos = i;
                                 break;
                             }
                         }
                         if (pos != -1) {
-                            int nuevaCant = listCarrito.get(pos).getCantidad()+ 1;
+                            int nuevaCant = listCarrito.get(pos).getCantidad() + 1;
                             listCarrito.get(pos).setCantidad(nuevaCant);
                             listCarrito.get(pos).setSubTotal(nuevaCant * p.getPrecio());
                         } else {
-                            Carrito car = new Carrito();
+                            Carrito car = new Carrito(); // INSTANCIA CUANDO NO EXISTE EN CARRITO
                             car.setIdProducto(p.getId_producto());
                             car.setNombre(p.getNombre());
                             car.setPrecioCompra(p.getPrecio());
                             car.setCantidad(1);
-                            car.setSubTotal(p.getPrecio());
+                            car.setSubTotal(p.getPrecio()); // ACUMULA EL PRECIO
                             listCarrito.add(car);
                         }
                         jsonResponse.addProperty("success", true);
-                        jsonResponse.addProperty("cartCout", listCarrito.size());
+                        jsonResponse.addProperty("cartCout", listCarrito.size()); // CONTADOR DEL CARRITO - LISTADO
                     }
                     out.print(jsonResponse.toString());
                     break;
 
+                // LISTAR CARRITO
                 case "listarCarrito":
                     double total = listCarrito.stream().mapToDouble(Carrito::getSubTotal).sum();
-                    session.setAttribute("total", total);
+                    session.setAttribute("total", total); // SESIÓN DE VARIABLE
                     JsonObject cartData = new JsonObject();
                     cartData.add("item", gson.toJsonTree(listCarrito));
                     cartData.addProperty("total", total);
                     out.print(cartData.toString());
                     break;
 
+                // ELIMINAR CARRITO
                 case "Delete":
                     try {
                         int idproducto = Integer.parseInt(request.getParameter("id"));
@@ -111,6 +118,8 @@ public class AppController extends HttpServlet {
                     }
                     out.print(jsonResponse.toString());
                     break;
+
+                // GENERAR - COMPRA.CARRITO
                 case "GenerarCompra":
                     Usuario user = (Usuario) session.getAttribute("usuario");
                     if (user == null) {
@@ -124,6 +133,7 @@ public class AppController extends HttpServlet {
                         out.print(jsonResponse.toString());
                     }
 
+                    // STOCKDisponible - CARRITO
                     boolean stockDiponible = true;
                     String productoSinStock = "";
 
@@ -143,33 +153,33 @@ public class AppController extends HttpServlet {
                     }
 
                     double totalPagar = listCarrito.stream().mapToDouble(Carrito::getSubTotal).sum();
-                    
-                    Pedidos pedido = new Pedidos();
+
+                    Pedidos pedido = new Pedidos(); // EMPIEZA EL ENVÍO DE DATOS
                     pedido.setPersona(user.getPersona());
                     pedido.setTotal(totalPagar);
                     pedido.setEstadoPedido(EstadoPedido.ENVIADO);
                     pedido.setDetalleCarritos(listCarrito);
-                    
+
                     int idGenerado = IDao.generarPedido(pedido);
-                    if (idGenerado>0) {
+                    if (idGenerado > 0) {
                         for (Carrito c : listCarrito) {
                             Productos prodBD = pDao.SearchByID(c.getIdProducto());
-                            int nuevoStock = prodBD.getStock() - c.getCantidad();
+                            int nuevoStock = prodBD.getStock() - c.getCantidad(); // ENVÍO DE NUEVO STOCK SEGÚN LA CANTIDAD QUE VOY A ENVIAR
                             pDao.updateStock(c.getIdProducto(), nuevoStock);
-                            
+
                         }
-                        listCarrito.clear();
+                        listCarrito.clear(); // LIMPIEZA DEL CARRITO
                         session.setAttribute("carrito", listCarrito);
                         session.setAttribute("total", 0.0);
-                         jsonResponse.addProperty("success", true);
-                        jsonResponse.addProperty("message", "Compra exitosa !!!"); 
-                    }else{
-                       jsonResponse.addProperty("success", false);
-                        jsonResponse.addProperty("message", "Error al procesar el pedido");  
+                        jsonResponse.addProperty("success", true);
+                        jsonResponse.addProperty("message", "Compra exitosa !!!");
+                    } else {
+                        jsonResponse.addProperty("success", false);
+                        jsonResponse.addProperty("message", "Error al procesar el pedido");
                     }
                     out.print(jsonResponse.toString());
 
-                    break;  
+                    break;
 
                 default:
                     jsonResponse.addProperty("success", false);

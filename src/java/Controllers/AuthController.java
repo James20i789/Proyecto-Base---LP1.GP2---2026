@@ -104,7 +104,7 @@ public class AuthController extends HttpServlet {
                 int resultado = PDao.insert(p, us);
                 
                 jsonResponse.addProperty("success", true);
-                jsonResponse.addProperty("message", resultado != 0 ? "Incio de sesion exitoso" : "error de registro");
+                jsonResponse.addProperty("message", resultado != 0 ? "Inicio de sesion exitoso" : "ERROR DE REGISTRO");
                 out.print(jsonResponse.toString());
 
                 
