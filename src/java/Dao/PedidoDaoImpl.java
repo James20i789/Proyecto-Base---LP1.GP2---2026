@@ -53,7 +53,7 @@ public class PedidoDaoImpl implements IPedido {
                     st = cn.prepareStatement(query);
                     st.setInt(1, id_pedido);
                     st.setInt(2, detalle.getIdProducto());
-                    st.setInt(3, detalle.getCanitdad());
+                    st.setInt(3, detalle.getCantidad());
                     st.setDouble(4, detalle.getPrecioCompra());
                     st.setDouble(5, detalle.getSubTotal());
                     r = st.executeUpdate();

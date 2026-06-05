@@ -15,19 +15,19 @@ public class Carrito {
     private String nombre;
     private String description;
     private double precioCompra;
-    private int canitdad;
+    private int Cantidad;
     private double subTotal; // CANTIDAD DEL DETALLE - PEDIDO.
 
     public Carrito() {
     }
 
-    public Carrito(int item, int idProducto, String nombre, String description, double precioCompra, int canitdad, double subTotal) {
+    public Carrito(int item, int idProducto, String nombre, String description, double precioCompra, int Cantidad, double subTotal) {
         this.item = item;
         this.idProducto = idProducto;
         this.nombre = nombre;
         this.description = description;
         this.precioCompra = precioCompra;
-        this.canitdad = canitdad;
+        this.Cantidad = Cantidad;
         this.subTotal = subTotal;
     }
 
@@ -71,12 +71,12 @@ public class Carrito {
         this.precioCompra = precioCompra;
     }
 
-    public int getCanitdad() {
-        return canitdad;
+    public int getCantidad() {
+        return Cantidad;
     }
 
-    public void setCanitdad(int canitdad) {
-        this.canitdad = canitdad;
+    public void setCantidad(int Cantidad) {
+        this.Cantidad = Cantidad;
     }
 
     public double getSubTotal() {
@@ -86,6 +86,7 @@ public class Carrito {
     public void setSubTotal(double subTotal) {
         this.subTotal = subTotal;
     }
+
     
     
     
