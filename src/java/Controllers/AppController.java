@@ -87,7 +87,7 @@ public class AppController extends HttpServlet {
                             listCarrito.add(car);
                         }
                         jsonResponse.addProperty("success", true);
-                        jsonResponse.addProperty("cartCout", listCarrito.size()); // CONTADOR DEL CARRITO - LISTADO
+                        jsonResponse.addProperty("cartCount", listCarrito.size()); // CONTADOR DEL CARRITO - LISTADO
                     }
                     out.print(jsonResponse.toString());
                     break;

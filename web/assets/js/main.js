@@ -38,8 +38,19 @@ async function init() {
         await loadScript('assets/js/bootstrap.bundle.min.js');
         await loadScript('https://cdn.jsdelivr.net/npm/sweetalert2@11');
 
-    } catch (e) {
-        console.error("Error al cargar la aplicacion", e);
+        // CARGAR LOS SCRIPTS + FUNCIONES
+        await loadScript('assets/js/tienda.js');
+        setTimeout(()=>{
+            if (typeof cargarProductos() === 'function')
+                cargarProductos();
+            if (typeof cargarCarrito === 'function')
+                cargarCarrito();
+            if (typeof actualizarContadorCarrito() === 'function')
+                actualizarContadorCarrito();
+        }, 200);
+
+    } catch (ex) {
+        console.error("Error al cargar la aplicacion", ex);
     }
 }
 init();
