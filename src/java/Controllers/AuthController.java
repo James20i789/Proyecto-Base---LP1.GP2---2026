@@ -20,7 +20,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import oracle.jdbc.driver.json.binary.JsonpOsonObject;
 
 /**
  *
@@ -29,10 +28,10 @@ import oracle.jdbc.driver.json.binary.JsonpOsonObject;
 @WebServlet(name = "AuthController", urlPatterns = {"/AuthController"})
 public class AuthController extends HttpServlet {
 
-    // LLAMADA GLOBAL
     private final IUsuario uDao = new UsuarioDaoImpl();
-    private final IPersona PDao = new PersonaDaoImpl();
+    private final IPersona pDao = new PersonaDaoImpl();
 
+    // PROCESS REQUEST - AUTENTICADOR DE DATOS
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -56,6 +55,7 @@ public class AuthController extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
+
     // PROCESOS - DoPost - ENVÍO DE DATOS POSTMAN
     @Override
     // DoPost ENVÍO
@@ -63,50 +63,34 @@ public class AuthController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-
+        
         // FORMA DE RECOGER DATOS DE LA VISTA EN LA ARQUITECTURA MVC
         String action = request.getParameter("action");
-        JsonObject jsonResponse = new JsonObject(); // Importe de Librería gson-2.10 jar
+        JsonObject jsonResponse = new JsonObject();
 
         Gson gson = new Gson();
+
         try (PrintWriter out = response.getWriter()) {
+
             if (action.equals("validar")) {
                 String user = request.getParameter("usuario");
-                String pasw = request.getParameter("password");
+                String pass = request.getParameter("password");
                 // VARIABLE LOCAL DE Usuario.MODEL
-                Usuario us = uDao.validate(user, pasw);
+                Usuario us = uDao.validate(user, pass);
 
                 if (us != null && us.getUsuario() != null) {
                     // ABRIENDO LA SESIÓN
-                    HttpSession sesion = request.getSession(true);
-                    sesion.setAttribute("usuario", us);
+                    HttpSession session = request.getSession(true);
 
+                    session.setAttribute("usuario", us);
                     jsonResponse.addProperty("success", true);
-                    jsonResponse.addProperty("message", "Incio de sesion exitoso");
-                    jsonResponse.add("userData", gson.toJsonTree(us));
+                    jsonResponse.addProperty("message", "Inicio de Sesion");
 
+                    jsonResponse.add("userData", gson.toJsonTree(us));
                 } else {
                     jsonResponse.addProperty("success", false);
-                    jsonResponse.addProperty("message", "sesion incorrecta");
+                    jsonResponse.addProperty("message", "Usuario o contraseña invalida");
                 }
-                out.println(jsonResponse.toString());
-
-                // REGISTER ACTION
-            } else if (action.equals("register")) {
-
-                Persona p = new Persona();
-                Usuario us = new Usuario();
-
-                p.setNombre(request.getParameter("nombre"));
-                p.setEmail(request.getParameter("email"));
-                p.setDirección(request.getParameter("direcion"));
-                p.setTelefono(request.getParameter("telefono"));
-                us.setClave(request.getParameter("password"));
-
-                int resultado = PDao.insert(p, us);
-
-                jsonResponse.addProperty("success", true);
-                jsonResponse.addProperty("message", resultado != 0 ? "Inicio de sesion exitoso" : "ERROR DE REGISTRO");
                 out.print(jsonResponse.toString());
 
                 // SALIR ACTION
@@ -115,18 +99,39 @@ public class AuthController extends HttpServlet {
                 if (session != null) {
                     session.invalidate();
                 }
-                jsonResponse.addProperty("sucess", true);
+                jsonResponse.addProperty("success", true);
                 jsonResponse.addProperty("message", "Sesion cerrada");
                 out.print(jsonResponse.toString());
+
+                 // REGISTER ACTION
+            } else if (action.equals("register")) {
+
+                Persona p = new Persona();
+                Usuario u = new Usuario();
+
+                p.setNombre(request.getParameter("nombre"));
+                p.setEmail(request.getParameter("email"));
+                p.setDirección(request.getParameter("direccion"));
+                p.setTelefono(request.getParameter("telefono"));
+                u.setClave(request.getParameter("password"));
+
+                int resultado = pDao.insert(p, u);
+
+                jsonResponse.addProperty("sucess", resultado != 0);
+                jsonResponse.addProperty("message", resultado != 0 ? "Registro Sucess" : "Error de registro");
+                out.print(jsonResponse.toString());
+
             }
 
         } catch (Exception e) {
             // EN UN SERVIDOR EL ERROR DE ESTADO 500 ES DE FALLA EN LA LÓGICA
             response.setStatus(500);
-            jsonResponse.addProperty("success", false);
-            jsonResponse.addProperty("message", "error" + e.getMessage());
+            jsonResponse.addProperty("sucess", false);
+            jsonResponse.addProperty("message", "Error" + e.getMessage());
             response.getWriter().print(jsonResponse.toString());
+
         }
+
     }
 
     @Override

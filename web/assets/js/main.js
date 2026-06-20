@@ -36,18 +36,26 @@ async function init() {
         await loadScript('assets/js/dataTables.bootstrap5.min.js');
 
         await loadScript('assets/js/bootstrap.bundle.min.js');
-        await loadScript('https://cdn.jsdelivr.net/npm/sweetalert2@11');
+        await loadScript('assets/js/sweetalert2.js');
 
         // CARGAR LOS SCRIPTS + FUNCIONES
         await loadScript('assets/js/tienda.js');
-        setTimeout(()=>{
+        setTimeout(() => {
+            if (typeof verificarSesion() === 'function')
+                verificarSesion();
             if (typeof cargarProductos() === 'function')
                 cargarProductos();
-            if (typeof cargarCarrito === 'function')
-                cargarCarrito();
+            if (typeof inicializarEventosAuth() === 'function')
+                inicializarEventosAuth();
+            if (typeof agregarCarrito() === 'function')
+                agregarCarrito();
             if (typeof actualizarContadorCarrito() === 'function')
                 actualizarContadorCarrito();
-        }, 200);
+            if (typeof cargarCarrito() === 'function')
+                cargarCarrito();
+
+
+        }, 200)
 
     } catch (ex) {
         console.error("Error al cargar la aplicacion", ex);
