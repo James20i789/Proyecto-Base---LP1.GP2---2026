@@ -37,6 +37,7 @@ public class AppController extends HttpServlet {
     private IPedido IDao = new PedidoDaoImpl();
     private Gson gson = new Gson();
 
+    // PROCESS REQUEST
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json");

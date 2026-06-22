@@ -9,7 +9,7 @@
 async function loadComponent(id, file) {
     const response = await fetch(file);
     const data = await response.text();
-    document.getElementById(id).innerHtml = data;
+    document.getElementById(id).innerHTML = data;
 }
 
 // CARGAR LIBRERIAS - SCRIPT
@@ -18,7 +18,7 @@ function loadScript(src) {
         const script = document.createElement('script');
         script.src = src;
         script.onload = resolve;
-        script.onerror = rejectc
+        script.onerror = reject;
         document.body.appendChild(script);
     });
 
@@ -63,8 +63,8 @@ async function init() {
 
         }, 200)
 
-    } catch (ex) {
-        console.error("Error al cargar la aplicacion", ex);
+    } catch (e) {
+        console.error("Error al cargar la aplicacion", e);
     }
 }
 init();

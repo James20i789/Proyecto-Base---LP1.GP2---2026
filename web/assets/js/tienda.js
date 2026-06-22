@@ -7,7 +7,7 @@ $(document).ready(function () {
     verificarSesion();
 });
 
-    // CARGAR PRODUCTOS - TIENDA
+    // CARGAR PRODUCTOS
     function cargarProductos() {
     fetch('AppController?action=listarProductos')
             .then(res => res.json())
@@ -24,8 +24,8 @@ $(document).ready(function () {
                         <p class="card-text text-muted small flex-grow-1">${p.descripcion}</p>
                         <div class="d-flex justify-content-between align-items-center mt-3">
                             <span class="fs-5 fw-bold text-info">${p.precio.toFixed(2)}</span>
-                            <span class="badge ${p.stock > 0 ? 'bg-light text-success' :
-                            'bg-light text-danger'}">Stock: ${p.stock}</span>
+                            <span class="badge ${p.stock > 0} 'bg-light text-success':
+                                         'bg-light text-danger'}">${p.stock}</span> 
                         </div>
                         <button onclick="agregarCarrito(${p.id_producto})" class="btn btn-info text-white w-100 mt-3">
                             <i class="bi bi-cart-plus me-2">Agregar</i>
@@ -33,12 +33,10 @@ $(document).ready(function () {
                     </div> 
                 </div>
             </div> `);
-
                 });
             }).catch(err => console.log("Error al cargar productos", err));
 }
-
-    // AGREGAR CARRITO - PRODUCTOS
+    // FUNCIONALIDAD - AGREGARCarrito-PRODUCTOS
     function agregarCarrito(id) {
     console.log(id);
     fetch(`AppController?action=AddCarrito&id=${id}`, {method: 'POST'})
@@ -56,16 +54,12 @@ $(document).ready(function () {
                     });
                 }
             });
-
-}
-
-
-    // CARGAR CARRITO - PRODUCTOS
+}   
+    // FUNCIONALIDAD - CARGARCarrito-PRODUCTOS
     function cargarCarrito() {
     const tabla = $('#tabla-carrito tbody');
     if (tabla.length === 0)
         return;
-
     fetch('AppController?action=listarCarrito')
             .then(res => res.json())
             .then(data => {
@@ -94,14 +88,11 @@ $(document).ready(function () {
                     </tr>
                 `);
                 });
-
                 $('#resumen-total, #resumen-subtotal').text(`$${data.total.toFixed(2)}`);
                 $('#cart-count').text(data.items.length);
             });
 }
-
-
-    // ACTUALIZAR CONTADOR CARRITO - PRODUCTOS
+    // ACTUALIZAR EL CONTADOR DE PEDIDOS REALIZADOS
     function actualizarContadorCarrito() {
     fetch('AppController?action=listarCarrito')
             .then(res => res.json())
@@ -109,26 +100,21 @@ $(document).ready(function () {
                 $('#cart-count').text(data.items ? data.items.length : 0);
             });
 }
-
-    // VERIFICAR SESIÓN - PRODUCTOS 
+    // VALIDAR CREDENCIALES DEL LOGEO - SESIÓN FUNCIONABLE
     function verificarSesion() {
-    const user = JSON.parse(sessionStorage.getItem("usuario"));
-
-    if (user) {
-        // 1. Intercambio de botones
-        $('#btn-login-modal').addClass('d-none');
-        $('#user-profile').removeClass('d-none');
-        $('#user-name').text(user.persona.nombre);
-
-        // 2. Verificación de Rol
+        const user = JSON.parse(sessionStorage.getItem("usuario"));
+        if (user) {
+            // 1. Intercambio de botones
+         $('#btn-login-modal').addClass('d-none');
+         $('#user-profile').removeClass('d-none');
+         $('#user-name').text(user.persona.nombre);
+            // 2. Verificación de Rol
         if (user.rol === "ADMIN") {
             console.log("Intentando mostrar menú de Admin...");
-
             // Usamos un pequeño delay para asegurar que el navegador ya renderizó el header
-            setTimeout(() => {
+        setTimeout(() => {
                 const link = $('#link-admin');
                 const sep = $('#separator-admin');
-
                 if (link.length > 0) {
                     link.removeClass('d-none').attr('style', 'display: block !important');
                     sep.removeClass('d-none').attr('style', 'display: block !important');
@@ -140,7 +126,8 @@ $(document).ready(function () {
         }
     }
 }
-    // FUNCIONALIDAD - LOGOUT
+
+    // LOGOUT ACTION - POS.INDEX
     function logout() {
     fetch('AuthController?action=Salir', {method: 'POST'})
             .then(() => {
@@ -148,8 +135,7 @@ $(document).ready(function () {
                 window.location.href = "index.html";
             });
 }
-    
-    // INICIALIZAR EVENTOS POR AUTENTICADOR - PRODUCTOS
+    // INICIALIZAR EVENTOS DE AUTENTIFICACIÓN
     function inicializarEventosAuth() {
     // LOGIN
     $(document).on('submit', '#form-login', function (e) {
@@ -171,13 +157,35 @@ $(document).ready(function () {
                     }
                 });
     });
+    // REGISTER PROCESS
+    $(document).on('submit', '#form-register', function (e) {
+        e.preventDefault();
+        const datos = $(this).serialize(); // action=validar&usuario=...&password=...
+
+        fetch('AuthController?action=register', {
+            method: 'POST',
+            body: new URLSearchParams(datos)
+        })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire("¡Bienvenido!", "Registro Exitoso", "success")
+                                .then(() => {
+                                    $('#modalRegister').modal('hide');
+                                    $('#modalLogin').modal('show');
+                                });
+                    } else {
+
+                        Swal.fire("Error", data.message, "error");
+                    }
+                });
+    });
 }
-    // PROCESAR COMPRAR - PRODUCTOS
+    // PROCESAR COMPRA - PRODUCTOS
     function procesarCompra() {
     // 1. VALIDACIÓN: ¿El carrito tiene productos?
     // Obtenemos el número del contador del header
     const cantidadProductos = parseInt($('#cart-count').text()) || 0;
-
     if (cantidadProductos === 0) {
         Swal.fire({
             title: 'Carrito Vacío',
@@ -193,7 +201,6 @@ $(document).ready(function () {
 
     // 2. VALIDACIÓN: ¿El usuario está logueado?
     const user = JSON.parse(sessionStorage.getItem("usuario"));
-
     if (!user) {
         Swal.fire({
             title: 'Inicia Sesión',
@@ -224,7 +231,7 @@ $(document).ready(function () {
         cancelButtonText: 'Revisar más'
     }).then((result) => {
         if (result.isConfirmed) {
-            // Mostramos un cargando mientras el servidor procesa
+    // Mostramos un cargando mientras el servidor procesa
             Swal.fire({
                 title: 'Procesando pedido...',
                 didOpen: () => {
@@ -232,7 +239,6 @@ $(document).ready(function () {
                 },
                 allowOutsideClick: false
             });
-
             fetch('AppController?action=GenerarCompra', {method: 'POST'})
                     .then(res => res.json())
                     .then(data => {
@@ -249,6 +255,154 @@ $(document).ready(function () {
                     })
                     .catch(err => {
                         Swal.fire('Error', 'Hubo un problema en la conexión', 'error');
+                    });
+        }
+    });
+}
+    // CARGAR TABLA ADMIN
+    function cargarTablaAdmin() {
+    const tablaElemento = $('#tabla-productos');
+    if (tablaElemento.length === 0)
+        return;
+    if ($.fn.DataTable) {
+        if ($.fn.DataTable.isDataTable('#tabla-productos')) {
+            tablaElemento.DataTable().destroy();
+        }
+
+        tablaElemento.DataTable({
+            "ajax": {
+                "url": "ProductoController?action=listar",
+                "dataSrc": ""
+            },
+            "columns": [
+                {
+                    "data": null,
+                    "render": function (data, type, row, meta) {
+                        return meta.row + 1;
+                    }
+                },
+                {
+                    "data": "imagen",
+                    "render": function (data) {
+                        return `<img src="${data}" width="50" class="img-thumbnail shadow-sm">`;
+                    }
+                },
+                {"data": "nombre"},
+                {
+                    "data": "precio",
+                    "render": function (data) {
+                        return `<b>$${data.toFixed(2)}</b>`;
+                    }
+                },
+                {"data": "stock"},
+                {
+                    "data": null,
+                    "render": function (data) {
+                        return `
+                            <div class="btn-group">
+                                <button class="btn btn-warning btn-sm" onclick="editarProducto(${data.id_producto})">
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                                <button class="btn btn-danger btn-sm" onclick="eliminarProducto(${data.id_producto})">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        `;
+                    }
+                }
+            ],
+            "language": {
+                "lengthMenu": "Mostrar _MENU_ registros",
+                "zeroRecords": "No se encontraron resultados",
+                "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sSearch": "Buscar:",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Último",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "sProcessing": "Procesando...",
+            }
+        });
+    }
+}
+    // ABRIR MODA NUEVO - PRODUCTOS
+    function abrirModalNuevo() {
+        $('#form-producto')[0].reset();
+        $('#action').val('guardar');
+        $('#tituloModal').text('Nuevo Producto');
+        $('#modalProducto').modal('show');
+}
+    $(document).on('submit', '#form-producto', function (e) {
+    e.preventDefault();
+
+    // IMPORTANTE: Para enviar archivos usamos FormData
+    const formData = new FormData(this);
+
+    fetch('ProductoController', {
+        method: 'POST',
+        body: formData
+    })
+            .then(res => res.json())
+            .then(res => {
+                if (res) {
+                    Swal.fire("¡Éxito!", "Producto guardado correctamente", "success");
+                    $('#modalProducto').modal('hide');
+                    cargarTablaAdmin(); // Recargar la tabla
+                } else {
+                    Swal.fire("Error", "No se pudo guardar el producto", "error");
+                }
+            });
+});
+// FUNCIÓN PARA EDITAR - PRODUCTOS
+function editarProducto(id) {
+    // 1. Buscamos los datos del producto por ID
+    fetch(`ProductoController?action=buscar&id=${id}`)
+            .then(res => res.json())
+            .then(p => {
+                // 2. Llenamos los campos del modal con los datos recibidos
+                $('#id_producto').val(p.id_producto);
+                $('#nombre').val(p.nombre);
+                $('#descripcion').val(p.descripcion);
+                $('#precio').val(p.precio);
+                $('#stock').val(p.stock);
+
+                // 3. Cambiamos el título y la acción
+                $('#action').val('editar');
+                $('#tituloModal').text('Editar Producto');
+
+                // 4. Mostramos el modal
+                $('#modalProducto').modal('show');
+            })
+            .catch(err => {
+                console.error("Error al buscar producto:", err);
+                Swal.fire("Error", "No se pudo obtener los datos del producto", "error");
+            });
+}
+
+// FUNCIÓN PARA ELIMINAR - PRODUCTOS
+function eliminarProducto(id) {
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "¡No podrás revertir esto!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(`ProductoController?action=eliminar&id=${id}`, {method: 'POST'})
+                    .then(res => res.json())
+                    .then(res => {
+                        if (res) {
+                            Swal.fire('Eliminado', 'El producto ha sido borrado.', 'success');
+                            cargarTablaAdmin();
+                        }
                     });
         }
     });
