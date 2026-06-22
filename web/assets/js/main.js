@@ -41,16 +41,22 @@ async function init() {
         // CARGAR LOS SCRIPTS + FUNCIONES
         await loadScript('assets/js/tienda.js');
         setTimeout(() => {
+            // VERIFICAR SESIÓN - PRODUCTOS
             if (typeof verificarSesion() === 'function')
                 verificarSesion();
+            // CARGAR PRODUCTOS - TIENDA
             if (typeof cargarProductos() === 'function')
                 cargarProductos();
+            // INICIALIZAR EVENTOS POR AUTENTICADOR - PRODUCTOS
             if (typeof inicializarEventosAuth() === 'function')
                 inicializarEventosAuth();
+            // AGREGAR CARRITO - PRODUCTOS
             if (typeof agregarCarrito() === 'function')
                 agregarCarrito();
+            // ACTUALIZAR CONTADOR CARRITO - PRODUCTOS
             if (typeof actualizarContadorCarrito() === 'function')
                 actualizarContadorCarrito();
+            // CARGAR CARRITO - PRODUCTOS
             if (typeof cargarCarrito() === 'function')
                 cargarCarrito();
 
